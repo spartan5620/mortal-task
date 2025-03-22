@@ -7,9 +7,12 @@ import { formatPrice } from '@/lib/formatters';
 
 interface MenuItemProps {
   item: MenuItemType;
+  canteenId?: string;  // Make this optional
+  onEdit?: (updatedItem: MenuItemType) => void;
+  onDelete?: (itemId: string) => void;
 }
 
-const MenuItem = ({ item }: MenuItemProps) => {
+const MenuItem = ({ item, canteenId, onEdit, onDelete }: MenuItemProps) => {
   return (
     <Card className={item.available ? '' : 'opacity-60'}>
       <CardContent className="p-4">
@@ -23,6 +26,28 @@ const MenuItem = ({ item }: MenuItemProps) => {
           </div>
           <div className="font-medium">{formatPrice(item.price)}</div>
         </div>
+        
+        {/* Only render edit/delete buttons if handlers are provided */}
+        {(onEdit || onDelete) && (
+          <div className="flex gap-2 mt-4 justify-end">
+            {onEdit && (
+              <button 
+                className="text-sm text-blue-500 hover:text-blue-700"
+                onClick={() => onEdit(item)}
+              >
+                Edit
+              </button>
+            )}
+            {onDelete && (
+              <button 
+                className="text-sm text-red-500 hover:text-red-700"
+                onClick={() => onDelete(item.id)}
+              >
+                Delete
+              </button>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
