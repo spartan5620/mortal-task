@@ -15,9 +15,10 @@ import { useAuth } from '@/lib/auth';
 
 interface CanteenDetailProps {
   canteen: Canteen;
+  onUpdate?: (updatedCanteen: Canteen) => void;
 }
 
-const CanteenDetail = ({ canteen }: CanteenDetailProps) => {
+const CanteenDetail = ({ canteen, onUpdate }: CanteenDetailProps) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
