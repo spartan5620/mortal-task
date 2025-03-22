@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
@@ -24,7 +23,7 @@ import {
 import { toast } from '@/components/ui/use-toast';
 import { Canteen, Schedule, ShiftTime, Shift, ClosedDate } from '@/lib/types';
 import { updateSchedule, addClosedDate } from '@/data/mockData';
-import { Calendar as CalendarIcon, Clock, X, Plus, Save } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, X, Plus, Save, AlertCircle } from 'lucide-react';
 
 interface ScheduleCalendarProps {
   canteen: Canteen;
@@ -41,7 +40,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
   const [selectedDay, setSelectedDay] = useState<string>('monday');
   const [shifts, setShifts] = useState<Shift[]>([]);
   
-  // Format date for display
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
@@ -51,7 +49,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     });
   };
   
-  // Check if a date is marked as closed
   const isDateClosed = (date: Date) => {
     return schedule.closedDates.some(
       (closedDate) => 
@@ -59,7 +56,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     );
   };
   
-  // Handle adding a new closed date
   const handleAddClosedDate = () => {
     if (!selectedDate) {
       toast({
@@ -79,7 +75,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
       return;
     }
     
-    // Add to schedule
     const newClosedDate = {
       date: selectedDate,
       reason: closingReason,
@@ -87,7 +82,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     
     addClosedDate(canteen.id, newClosedDate);
     
-    // Update local state
     const updatedSchedule = {
       ...schedule,
       closedDates: [
@@ -102,7 +96,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     
     setSchedule(updatedSchedule);
     
-    // Update canteen
     const updatedCanteen = {
       ...canteen,
       schedule: updatedSchedule,
@@ -110,7 +103,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     
     onUpdate(updatedCanteen);
     
-    // Reset form
     setSelectedDate(undefined);
     setClosingReason('');
     setIsClosingDialogOpen(false);
@@ -121,7 +113,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     });
   };
   
-  // Handle removing a closed date
   const handleRemoveClosedDate = (closedDateId: string) => {
     const updatedClosedDates = schedule.closedDates.filter(
       (date) => date.id !== closedDateId
@@ -135,7 +126,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     setSchedule(updatedSchedule);
     updateSchedule(canteen.id, updatedSchedule);
     
-    // Update canteen
     const updatedCanteen = {
       ...canteen,
       schedule: updatedSchedule,
@@ -149,7 +139,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     });
   };
   
-  // Load shifts for a day
   const loadShiftsForDay = (day: string) => {
     const daySchedule = schedule.regularHours.find((d) => d.day === day);
     if (daySchedule) {
@@ -161,7 +150,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     setIsShiftDialogOpen(true);
   };
   
-  // Add a new shift
   const handleAddShift = () => {
     setShifts([
       ...shifts,
@@ -169,12 +157,10 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     ]);
   };
   
-  // Remove a shift
   const handleRemoveShift = (shiftId: string) => {
     setShifts(shifts.filter((shift) => shift.id !== shiftId));
   };
   
-  // Update shift time
   const handleShiftChange = (shiftId: string, field: 'start' | 'end', value: string) => {
     setShifts(
       shifts.map((shift) =>
@@ -183,9 +169,7 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     );
   };
   
-  // Save shifts for a day
   const handleSaveShifts = () => {
-    // Validate shifts (ensure start is before end)
     for (const shift of shifts) {
       const [startHour, startMinute] = shift.start.split(':').map(Number);
       const [endHour, endMinute] = shift.end.split(':').map(Number);
@@ -217,7 +201,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     setSchedule(updatedSchedule);
     updateSchedule(canteen.id, updatedSchedule);
     
-    // Update canteen
     const updatedCanteen = {
       ...canteen,
       schedule: updatedSchedule,
@@ -233,7 +216,6 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     });
   };
   
-  // Format time for display
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(':');
     const hour = parseInt(hours);
@@ -242,9 +224,15 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
     return `${formattedHour}:${minutes} ${period}`;
   };
   
-  // Get day name from date
   const getDayName = (date: Date) => {
     return date.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+  };
+
+  const handleCloseForToday = () => {
+    const today = new Date();
+    setSelectedDate(today);
+    setClosingReason('Unavailable today');
+    setIsClosingDialogOpen(true);
   };
 
   return (
@@ -273,7 +261,7 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
               />
               
               {!readOnly && (
-                <div className="mt-4">
+                <div className="mt-4 space-y-2">
                   <Dialog open={isClosingDialogOpen} onOpenChange={setIsClosingDialogOpen}>
                     <DialogTrigger asChild>
                       <Button className="w-full">
@@ -314,6 +302,15 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
+                  
+                  <Button 
+                    variant="secondary" 
+                    className="w-full" 
+                    onClick={handleCloseForToday}
+                  >
+                    <AlertCircle size={16} className="mr-2" />
+                    Quick Close for Today
+                  </Button>
                 </div>
               )}
             </CardContent>
@@ -485,3 +482,4 @@ const ScheduleCalendar = ({ canteen, onUpdate, readOnly = false }: ScheduleCalen
 };
 
 export default ScheduleCalendar;
+

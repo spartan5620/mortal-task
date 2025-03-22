@@ -179,7 +179,7 @@ const CanteenDetail = ({ canteen, onUpdate }: CanteenDetailProps) => {
                             </div>
                             <p className="text-sm text-muted-foreground">{item.description}</p>
                           </div>
-                          <div className="font-medium">${item.price.toFixed(2)}</div>
+                          <div className="font-medium">₹{item.price.toFixed(2)}</div>
                         </div>
                       </CardContent>
                     </Card>
