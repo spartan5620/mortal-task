@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Canteen, MenuItem } from '@/lib/types';
@@ -12,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/lib/auth';
+import MenuItemComponent from '@/components/menu/MenuItem';
 
 interface CanteenDetailProps {
   canteen: Canteen;
@@ -169,20 +169,7 @@ const CanteenDetail = ({ canteen, onUpdate }: CanteenDetailProps) => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {items.map((item) => (
-                    <Card key={item.id} className={item.available ? '' : 'opacity-60'}>
-                      <CardContent className="p-4">
-                        <div className="flex justify-between items-start">
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-2">
-                              <h4 className="font-medium">{item.name}</h4>
-                              {!item.available && <Badge variant="outline">Unavailable</Badge>}
-                            </div>
-                            <p className="text-sm text-muted-foreground">{item.description}</p>
-                          </div>
-                          <div className="font-medium">₹{item.price.toFixed(2)}</div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <MenuItemComponent key={item.id} item={item} />
                   ))}
                 </div>
               </div>

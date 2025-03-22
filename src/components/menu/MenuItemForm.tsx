@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select';
 import { updateMenuItem, addMenuItem } from '@/data/mockData';
 import { toast } from '@/components/ui/use-toast';
+import { formatPrice } from '@/lib/formatters';
 
 interface MenuItemFormProps {
   initialValues?: MenuItem;
@@ -164,7 +165,7 @@ const MenuItemForm = ({ initialValues, canteenId, onSubmit, onCancel }: MenuItem
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="price">Price ($)</Label>
+              <Label htmlFor="price">Price (₹)</Label>
               <Input
                 id="price"
                 name="price"
