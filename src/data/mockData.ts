@@ -1,4 +1,3 @@
-
 import { Canteen, MenuItem, User, SpecialOffer, ShiftTime, Schedule } from '../lib/types';
 
 // Mock Users
@@ -12,41 +11,41 @@ export const users: User[] = [
   },
   {
     id: 'owner1',
-    username: 'central_owner',
-    password: 'central123',
-    name: 'Central Canteen Owner',
+    username: 'nilachal_owner',
+    password: 'nilachal123',
+    name: 'NILACHAL Canteen Owner',
     role: 'owner',
     canteenId: 'canteen1',
   },
   {
     id: 'owner2',
-    username: 'north_owner',
-    password: 'north123',
-    name: 'North Canteen Owner',
+    username: 'charaideu_owner',
+    password: 'charaideu123',
+    name: 'CHARAIDEU Canteen Owner',
     role: 'owner',
     canteenId: 'canteen2',
   },
   {
     id: 'owner3',
-    username: 'south_owner',
-    password: 'south123',
-    name: 'South Canteen Owner',
+    username: 'patkai_owner',
+    password: 'patkai123',
+    name: 'PATKAI Canteen Owner',
     role: 'owner',
     canteenId: 'canteen3',
   },
   {
     id: 'owner4',
-    username: 'east_owner',
-    password: 'east123',
-    name: 'East Canteen Owner',
+    username: 'kanchanjanga_owner',
+    password: 'kanchanjanga123',
+    name: 'KANCHANJANGA Canteen Owner',
     role: 'owner',
     canteenId: 'canteen4',
   },
   {
     id: 'owner5',
-    username: 'west_owner',
-    password: 'west123',
-    name: 'West Canteen Owner',
+    username: 'bhrahmaputra_owner',
+    password: 'bhrahmaputra123',
+    name: 'BHRAHMAPUTRA Canteen Owner',
     role: 'owner',
     canteenId: 'canteen5',
   },
@@ -190,7 +189,7 @@ const createSpecialOffers = (canteenId: string): SpecialOffer[] => [
 export const canteens: Canteen[] = [
   {
     id: 'canteen1',
-    name: 'Central Canteen',
+    name: 'NILACHAL',
     description: 'Main canteen located at the university center',
     location: 'University Center, Ground Floor',
     ownerId: 'owner1',
@@ -203,7 +202,7 @@ export const canteens: Canteen[] = [
   },
   {
     id: 'canteen2',
-    name: 'North Canteen',
+    name: 'CHARAIDEU',
     description: 'Serving the northern academic buildings',
     location: 'North Campus, Building A',
     ownerId: 'owner2',
@@ -216,7 +215,7 @@ export const canteens: Canteen[] = [
   },
   {
     id: 'canteen3',
-    name: 'South Canteen',
+    name: 'PATKAI',
     description: 'Located near the student dormitories',
     location: 'South Campus, Dorm Complex',
     ownerId: 'owner3',
@@ -229,7 +228,7 @@ export const canteens: Canteen[] = [
   },
   {
     id: 'canteen4',
-    name: 'East Canteen',
+    name: 'KANCHANJANGA',
     description: 'Near the engineering buildings',
     location: 'East Campus, Engineering Complex',
     ownerId: 'owner4',
@@ -242,7 +241,7 @@ export const canteens: Canteen[] = [
   },
   {
     id: 'canteen5',
-    name: 'West Canteen',
+    name: 'BHRAHMAPUTRA',
     description: 'Located near sports facilities',
     location: 'West Campus, Sports Center',
     ownerId: 'owner5',
